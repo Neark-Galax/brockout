@@ -1,45 +1,124 @@
-const MainCanvas = document.getElementById("MainCanvas");
-const MainContext = MainCanvas.getContext("2d");
-const CanvasWrapper = document.querySelector("#wrapper");
-const GameArea = new CanvasManager(new Vector2(1280, 720), MainCanvas, CanvasWrapper);
-const keyInput = new keyInputManager();
-const Sound = new SoundManager();
-GameArea.refresh();
+//aiueo
 
-let IsGameRunning = false;
 
-Sound.LoadSound("click", "assets/click.mp3");
-Sound.LoadSound("hit", "assets/hit.mp3");
-function gameStart() {
-    Sound.PlaySound("click");
-    document.querySelector("#menu").style.display = "none";
-    document.querySelector("#game").style.display = "block";
-    IsGameRunning = true;
+
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+var ballRadius = 10;
+var x = canvas.width/2;
+var y = canvas.height-30;
+var dx = 2;
+var dy = -2;
+var paddleHeight = 10;
+var paddleWidth = 75;
+var paddleX = (canvas.width-paddleWidth)/2;
+var rightPressed = false;
+var leftPressed = false;
+var brickRowCount = 3;
+var brickColumnCount = 5;
+var brickWidth = 75;
+var brickHeight = 20;
+var brickPadding = 10;
+var brickOffsetTop = 30;
+var brickOffsetLeft = 30;
+
+var bricks = [];
+for(var c=0; c<brickColumnCount; c++) {
+    bricks[c] = [];
+    for(var r=0; r<brickRowCount; r++) {
+        bricks[c][r] = { x: 0, y: 0 };
+    }
 }
 
-function gameOver() {
-    document.querySelector("#gameEnd").style.display = "block";
-    IsGameRunning = false;
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
+function keyDownHandler(e) {
+    if(e.key == "Right" || e.key == "ArrowRight") {
+        rightPressed = true;
+    }
+    else if(e.key == "Left" || e.key == "ArrowLeft") {
+        leftPressed = true;
+    }
 }
 
-function backMenu() {
-    Sound.PlaySound("click");
-    document.querySelector("#menu").style.display = "block";
-    document.querySelector("#game").style.display = "none";
-    document.querySelector("#gameEnd").style.display = "none";
+function keyUpHandler(e) {
+    if(e.key == "Right" || e.key == "ArrowRight") {
+        rightPressed = false;
+    }
+    else if(e.key == "Left" || e.key == "ArrowLeft") {
+        leftPressed = false;
+    }
 }
 
-function update() {
+function drawBall() {
+    ctx.beginPath();
+    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+    ctx.fillStyle = "#0095DD";
+    ctx.fill();
+    ctx.closePath();
+}
+function drawPaddle() {
+    ctx.beginPath();
+    ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+    ctx.fillStyle = "#0095DD";
+    ctx.fill();
+    ctx.closePath();
+}
+function drawBricks() {
+    for(var c=0; c<brickColumnCount; c++) {
+        for(var r=0; r<brickRowCount; r++) {
+            var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+            var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+            bricks[c][r].x = brickX;
+            bricks[c][r].y = brickY;
+            ctx.beginPath();
+            ctx.rect(brickX, brickY, brickWidth, brickHeight);
+            ctx.fillStyle = "#0095DD";
+            ctx.fill();
+            ctx.closePath();
+        }
+    }
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBricks();
+    drawBall();
+    drawPaddle();
     
+    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+        dx = -dx;
+    }
+    if(y + dy < ballRadius) {
+        dy = -dy;
+    }
+    else if(y + dy > canvas.height-ballRadius) {
+        if(x > paddleX && x < paddleX + paddleWidth) {
+           if(y= y-paddleHeight){
+            dy = -dy  ;
+			 }
+        }
+        else {
+            alert("GAME OVER");
+            document.location.reload();
+            clearInterval(interval); // Needed for Chrome to end game
+        }
+    }
+    
+    if(rightPressed && paddleX < canvas.width-paddleWidth) {
+        paddleX += 7;
+    }
+    else if(leftPressed && paddleX > 0) {
+        paddleX -= 7;
+    }
+    
+    x += dx;
+    y += dy;
 }
 
-//ゲームループの定義・開始
-const GameLoop = new GameLoopManager(() => {
-    MainContext.clearRect(0, 0, GameArea.x, GameArea.y);
-    CanvasComponents.components.forEach((component) => {
-        component.update();
-        component.render();
-    });
-    update();
-}, 30);
-GameLoop.start();
+var interval = setInterval(draw, 10);
+
+
+//_______________________________
+
