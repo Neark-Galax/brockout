@@ -20,8 +20,6 @@ function gameStart()
     
 //aiueo
 
-
-
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var ballRadius = 10;
