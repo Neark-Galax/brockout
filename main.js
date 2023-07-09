@@ -12,11 +12,14 @@ let IsGameRunning = false;
 
 Sound.LoadSound("click", "assets/click.mp3");
 Sound.LoadSound("hit", "assets/hit.mp3");
-function gameStart() 
+function gameStart() {
     Sound.PlaySound("click"); 
     document.querySelector("#menu").style.display = "none";
     document.querySelector("#game").style.display = "block";
     IsGameRunning = true;
+}
+
+
     
 //aiueo
 
