@@ -248,3 +248,31 @@ ball.direction = new Vector2(0, 0);
 
         }
 //ボール反射
+if (IsGameRunning) {
+    if (this.position.x < 0 + this.size.x / 2) {
+        this.direction.x = Math.abs(this.direction.x);
+        Sound.PlaySound("hit");
+    } else if (this.position.x > GameArea.x - this.size.x / 2) {
+        this.direction.x = Math.abs(this.direction.x) * -1;
+        Sound.PlaySound("hit");
+    }
+    if (this.position.y < 0 + this.size.y / 2) {
+        this.direction.y = Math.abs(this.direction.y);
+        Sound.PlaySound("hit");
+    }
+    if (
+        this.position.y > bar.position.y - bar.size.y / 2 - this.size.y / 2 &&
+        this.position.y < bar.position.y + bar.size.y / 2 + this.size.y / 2 &&
+        this.position.x > bar.position.x - bar.size.x / 2 - this.size.x / 2 &&
+        this.position.x < bar.position.x + bar.size.x / 2 + this.size.x / 2
+    ) {
+        let hitPosition = (this.position.x - bar.position.x) / (bar.size.x / 2);
+        this.direction = new Vector2(2 * hitPosition, -1);
+        Sound.PlaySound("hit");
+    }
+    if (this.position.y > GameArea.y - this.size.y / 2) {
+        gameOver();
+    }
+    this.motion = this.direction.normalized().multiply(15);
+    this.position = this.position.add(this.motion);
+}
