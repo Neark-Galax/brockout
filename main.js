@@ -123,7 +123,76 @@ var interval = setInterval(draw, 10);
 //当たり判定
 
 //グリッド
+const board = [
+    "          ",
+    "          ",
+    " ▪▪▪▪▪▪▪▪ ",
+    " ▪▪▪▪▪▪▪▪ ",
+    " ▪▪▪▪▪▪▪▪ "
+];
+for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board[i].length; j++) {
+        if (board[i][j] === "▪") {
+            new CanvasComponents({
+                ctx: MainContext,
+                img: "assets/bar.png",
+                size: new Vector2(GameArea.x / 10 , 30),
+                position: new Vector2((GameArea.x / 10 / 2) + j * (GameArea.x / 10), 15 + i * 30),
+                update: function () {
+                    if (
+                        (
+                            //横長の判定
+                            ball.position.x > this.position.x - this.size.x / 2 - ball.size.x / 2 &&
+                            ball.position.x < this.position.x + this.size.x / 2 + ball.size.x / 2 &&
+                            ball.position.y > this.position.y - this.size.y / 2 &&
+                            ball.position.y < this.position.y + this.size.y / 2
+                        ) || ( 
+                            //縦長の判定
+                            ball.position.x > this.position.x - this.size.x / 2 &&
+                            ball.position.x < this.position.x + this.size.x / 2 &&
+                            ball.position.y > this.position.y - this.size.y / 2 - ball.size.y / 2 &&
+                            ball.position.y < this.position.y + this.size.y / 2 + ball.size.y / 2
+                        )
+                    ) {
+                        Sound.PlaySound("hit");
+                        board[i] = board[i].slice(0, j) + " " + board[i].slice(j + 1);
+                        if (ball.position.x > this.position.x - this.size.x / 2 && ball.position.x < this.position.x + this.size.x / 2) 
+                             ball.direction.y *= -1;
+                        else ball.direction.x *= -1;
+                        
+                        this.position = new Vector2(-100, -100);
+                    }
+                },
+            });
+        }
+    }
+}
 
+Sound.LoadSound("click", "assets/click.mp3");
+Sound.LoadSound("hit", "assets/hit.mp3");
+function gameStart() {
+    Sound.PlaySound("click");
+    document.querySelector("#menu").style.display = "none";
+    document.querySelector("#game").style.display = "block";
+    bar.position = new Vector2(GameArea.x / 2, GameArea.y - 100);
+    ball.position = new Vector2(GameArea.x / 2, GameArea.y / 2);
+    ball.direction = new Vector2(Math.random() * 0.5 - 0.25, 1);
+    IsGameRunning = true;
+}
+
+function gameOver() {
+    document.querySelector("#gameover").style.display = "block";
+    IsGameRunning = false;
+}
+
+function backMenu() {
+    Sound.PlaySound("click");
+    document.querySelector("#menu").style.display = "block";
+    document.querySelector("#game").style.display = "none";
+    document.querySelector("#gameEnd").style.display = "none";
+}
+
+function update() {}
 //キーインプット＆サウンド
 
 //ボール方向
@@ -165,5 +234,5 @@ const ball = new CanvasComponents({
 });
 ball.direction = new Vector2(0, 0);
 
-        }
+        
 //ボール反射
