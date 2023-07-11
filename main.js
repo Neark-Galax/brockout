@@ -139,10 +139,6 @@ function draw() {
 }
 
 var interval = setInterval(draw, 10);
-
-
-//当たり判定
-
 //グリッド
 const board = [
     "          ",
