@@ -9,7 +9,6 @@ GameArea.refresh();
 let IsGameRunning = false;
 
 //動かすバー
-
 const bar = new CanvasComponents({
     ctx: MainContext,
     img: "assets/bar.png",
