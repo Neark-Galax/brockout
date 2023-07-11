@@ -138,7 +138,6 @@ function draw() {
 
 var interval = setInterval(draw, 10);
 
-
 //グリッド
 const board = [
     "          ",
@@ -284,8 +283,6 @@ const ball = new CanvasComponents({
     },
 });
 ball.direction = new Vector2(0, 0);
-
-        
 //ボール反射
 if (IsGameRunning) {
     if (this.position.x < 0 + this.size.x / 2) {
