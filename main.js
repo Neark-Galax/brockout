@@ -213,7 +213,41 @@ function backMenu() {
 
 function update() {}
 //キーインプット＆サウンド
-
+function keyDownHandler(e) {
+    if (e.key == "Right" || e.key == "ArrowRight") {
+      rigthKeyFlag = true;
+    } else if (e.key == "Left" || e.key == "ArrowLeft") {
+      leftKeyFlag = true;
+    }
+  }
+  
+  function keyUpHandler(e) {
+    if (e.key == "Right" || e.key == "ArrowRight") {
+      rigthKeyFlag = false;
+    } else if (e.key == "Left" || e.key == "ArrowLeft") {
+      leftKeyFlag = false;
+    }
+  }
+  
+  function keyDownHandler(e) {
+    if (e.key == "Right" || e.key == "D") {
+      rigthKeyFlag = true;
+    } else if (e.key == "Left" || e.key == "A") {
+      leftKeyFlag = true;
+    }
+  }
+  
+  function keyUpHandler(e) {
+    if (e.key == "Right" || e.key == "D") {
+      rigthKeyFlag = false;
+    } else if (e.key == "Left" || e.key == "A") {
+      leftKeyFlag = false;
+    }
+  }
+  
+  document.addEventListener("keydown", keyDownHandler);
+  document.addEventListener("keyup", keyUpHandler);
+  
 //ボール方向
 const ball = new CanvasComponents({
     ctx: MainContext,
