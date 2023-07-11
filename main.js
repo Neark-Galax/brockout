@@ -1,6 +1,27 @@
+
+
+const MainCanvas = document.getElementById("MainCanvas");
+const MainContext = MainCanvas.getContext("2d");
+const CanvasWrapper = document.querySelector("#wrapper");
+const GameArea = new CanvasManager(new Vector2(1280, 720), MainCanvas, CanvasWrapper);
+const keyInput = new keyInputManager();
+const Sound = new SoundManager();
+GameArea.refresh();
+
+let IsGameRunning = false;
+
+Sound.LoadSound("click", "assets/click.mp3");
+Sound.LoadSound("hit", "assets/hit.mp3");
+function gameStart() {
+    Sound.PlaySound("click"); 
+    document.querySelector("#menu").style.display = "none";
+    document.querySelector("#game").style.display = "block";
+    IsGameRunning = true;
+}
+
+
+    
 //aiueo
-
-
 
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");

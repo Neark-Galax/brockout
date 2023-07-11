@@ -32,7 +32,6 @@ function backMenu() {
 function update() {
     
 }
-//動かすバー
 const bar = new CanvasComponents({
     ctx: MainContext,
     img: "assets/bar.png",
