@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 13037e1c0819bf0686524354fe48501898f1f49c
 const MainCanvas = document.getElementById("MainCanvas");
 const MainContext = MainCanvas.getContext("2d");
 const CanvasWrapper = document.querySelector("#wrapper");
@@ -8,6 +13,7 @@ GameArea.refresh();
 
 let IsGameRunning = false;
 
+<<<<<<< HEAD
 //動かすバー
 const bar = new CanvasComponents({
     ctx: MainContext,
@@ -99,6 +105,40 @@ const GameLoop = new GameLoopManager(() => {
     update();
 }, 30);
 GameLoop.start();
+=======
+Sound.LoadSound("click", "assets/click.mp3");
+Sound.LoadSound("hit", "assets/hit.mp3");
+function gameStart() {
+    Sound.PlaySound("click"); 
+    document.querySelector("#menu").style.display = "none";
+    document.querySelector("#game").style.display = "block";
+    IsGameRunning = true;
+}
+
+
+    
+//aiueo
+
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+var ballRadius = 10;
+var x = canvas.width/2;
+var y = canvas.height-30;
+var dx = 2;
+var dy = -2;
+var paddleHeight = 10;
+var paddleWidth = 75;
+var paddleX = (canvas.width-paddleWidth)/2;
+var rightPressed = false;
+var leftPressed = false;
+var brickRowCount = 3;
+var brickColumnCount = 5;
+var brickWidth = 75;
+var brickHeight = 20;
+var brickPadding = 10;
+var brickOffsetTop = 30;
+var brickOffsetLeft = 30;
+>>>>>>> 13037e1c0819bf0686524354fe48501898f1f49c
 
 var bricks = [];
 for(var c=0; c<brickColumnCount; c++) {
@@ -203,7 +243,76 @@ var interval = setInterval(draw, 10);
 //当たり判定
 
 //グリッド
+const board = [
+    "          ",
+    "          ",
+    " ▪▪▪▪▪▪▪▪ ",
+    " ▪▪▪▪▪▪▪▪ ",
+    " ▪▪▪▪▪▪▪▪ "
+];
+for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board[i].length; j++) {
+        if (board[i][j] === "▪") {
+            new CanvasComponents({
+                ctx: MainContext,
+                img: "assets/bar.png",
+                size: new Vector2(GameArea.x / 10 , 30),
+                position: new Vector2((GameArea.x / 10 / 2) + j * (GameArea.x / 10), 15 + i * 30),
+                update: function () {
+                    if (
+                        (
+                            //横長の判定
+                            ball.position.x > this.position.x - this.size.x / 2 - ball.size.x / 2 &&
+                            ball.position.x < this.position.x + this.size.x / 2 + ball.size.x / 2 &&
+                            ball.position.y > this.position.y - this.size.y / 2 &&
+                            ball.position.y < this.position.y + this.size.y / 2
+                        ) || ( 
+                            //縦長の判定
+                            ball.position.x > this.position.x - this.size.x / 2 &&
+                            ball.position.x < this.position.x + this.size.x / 2 &&
+                            ball.position.y > this.position.y - this.size.y / 2 - ball.size.y / 2 &&
+                            ball.position.y < this.position.y + this.size.y / 2 + ball.size.y / 2
+                        )
+                    ) {
+                        Sound.PlaySound("hit");
+                        board[i] = board[i].slice(0, j) + " " + board[i].slice(j + 1);
+                        if (ball.position.x > this.position.x - this.size.x / 2 && ball.position.x < this.position.x + this.size.x / 2) 
+                             ball.direction.y *= -1;
+                        else ball.direction.x *= -1;
+                        
+                        this.position = new Vector2(-100, -100);
+                    }
+                },
+            });
+        }
+    }
+}
 
+Sound.LoadSound("click", "assets/click.mp3");
+Sound.LoadSound("hit", "assets/hit.mp3");
+function gameStart() {
+    Sound.PlaySound("click");
+    document.querySelector("#menu").style.display = "none";
+    document.querySelector("#game").style.display = "block";
+    bar.position = new Vector2(GameArea.x / 2, GameArea.y - 100);
+    ball.position = new Vector2(GameArea.x / 2, GameArea.y / 2);
+    ball.direction = new Vector2(Math.random() * 0.5 - 0.25, 1);
+    IsGameRunning = true;
+}
+
+function gameOver() {
+    document.querySelector("#gameover").style.display = "block";
+    IsGameRunning = false;
+}
+
+function backMenu() {
+    Sound.PlaySound("click");
+    document.querySelector("#menu").style.display = "block";
+    document.querySelector("#game").style.display = "none";
+    document.querySelector("#gameEnd").style.display = "none";
+}
+
+function update() {}
 //キーインプット＆サウンド
 
 //ボール方向
@@ -244,8 +353,6 @@ const ball = new CanvasComponents({
     },
 });
 ball.direction = new Vector2(0, 0);
-
-        }
 //ボール反射
 if (IsGameRunning) {
     if (this.position.x < 0 + this.size.x / 2) {

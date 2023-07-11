@@ -8,7 +8,30 @@ GameArea.refresh();
 
 let IsGameRunning = false;
 
-//動かすバー
+Sound.LoadSound("click", "assets/click.mp3");
+Sound.LoadSound("hit", "assets/hit.mp3");
+function gameStart() {
+    Sound.PlaySound("click");
+    document.querySelector("#menu").style.display = "none";
+    document.querySelector("#game").style.display = "block";
+    IsGameRunning = true;
+}
+
+function gameOver() {
+    document.querySelector("#gameEnd").style.display = "block";
+    IsGameRunning = false;
+}
+
+function backMenu() {
+    Sound.PlaySound("click");
+    document.querySelector("#menu").style.display = "block";
+    document.querySelector("#game").style.display = "none";
+    document.querySelector("#gameEnd").style.display = "none";
+}
+
+function update() {
+    
+}
 const bar = new CanvasComponents({
     ctx: MainContext,
     img: "assets/bar.png",
