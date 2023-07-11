@@ -139,8 +139,6 @@ function draw() {
 var interval = setInterval(draw, 10);
 
 
-//当たり判定
-
 //グリッド
 const board = [
     "          ",
@@ -247,7 +245,7 @@ function keyDownHandler(e) {
   
   document.addEventListener("keydown", keyDownHandler);
   document.addEventListener("keyup", keyUpHandler);
-  
+
 //ボール方向
 const ball = new CanvasComponents({
     ctx: MainContext,
