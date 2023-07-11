@@ -16,10 +16,10 @@ const bar = new CanvasComponents({
     position: new Vector2(GameArea.x / 2, GameArea.y - 100),
     update: function () {
         if (keyInput.key["a"] && this.position.x > 0 + this.size.x / 2) {
-            this.position.x -= 10;
+            this.position.x -= 20;
         }
         if (keyInput.key["d"] && this.position.x < GameArea.x - this.size.x / 2) {
-            this.position.x += 10;
+            this.position.x += 20;
         }
     },
 });
