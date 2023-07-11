@@ -1,5 +1,3 @@
-
-
 const MainCanvas = document.getElementById("MainCanvas");
 const MainContext = MainCanvas.getContext("2d");
 const CanvasWrapper = document.querySelector("#wrapper");
@@ -10,7 +8,6 @@ GameArea.refresh();
 
 let IsGameRunning = false;
 
-<<<<<<< HEAD
 //動かすバー
 const bar = new CanvasComponents({
     ctx: MainContext,
@@ -63,178 +60,6 @@ const ball = new CanvasComponents({
     },
 });
 ball.direction = new Vector2(0, 0);
-
-Sound.LoadSound("click", "assets/click.mp3");
-Sound.LoadSound("hit", "assets/hit.mp3");
-function gameStart() {
-    Sound.PlaySound("click");
-    document.querySelector("#menu").style.display = "none";
-    document.querySelector("#game").style.display = "block";
-    bar.position = new Vector2(GameArea.x / 2, GameArea.y - 100);
-    ball.position = new Vector2(GameArea.x / 2, GameArea.y / 2);
-    ball.direction = new Vector2(Math.random() * 0.5 - 0.25, 1);
-    IsGameRunning = true;
-
-
-function gameOver() {
-    document.querySelector("#gameEnd").style.display = "block";
-    IsGameRunning = false;
-}
-
-function backMenu() {
-    Sound.PlaySound("click");
-    document.querySelector("#menu").style.display = "block";
-    document.querySelector("#game").style.display = "none";
-    document.querySelector("#gameEnd").style.display = "none";
-}
-
-function update() {
-    
-}
-
-//ゲームループの定義・開始
-const GameLoop = new GameLoopManager(() => {
-    MainContext.clearRect(0, 0, GameArea.x, GameArea.y);
-    CanvasComponents.components.forEach((component) => {
-        component.update();
-        component.render();
-    });
-    update();
-}, 30);
-GameLoop.start();
-=======
-Sound.LoadSound("click", "assets/click.mp3");
-Sound.LoadSound("hit", "assets/hit.mp3");
-function gameStart() {
-    Sound.PlaySound("click"); 
-    document.querySelector("#menu").style.display = "none";
-    document.querySelector("#game").style.display = "block";
-    IsGameRunning = true;
-}
-
-
-    
-//aiueo
-
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
-var ballRadius = 10;
-var x = canvas.width/2;
-var y = canvas.height-30;
-var dx = 2;
-var dy = -2;
-var paddleHeight = 10;
-var paddleWidth = 75;
-var paddleX = (canvas.width-paddleWidth)/2;
-var rightPressed = false;
-var leftPressed = false;
-var brickRowCount = 3;
-var brickColumnCount = 5;
-var brickWidth = 75;
-var brickHeight = 20;
-var brickPadding = 10;
-var brickOffsetTop = 30;
-var brickOffsetLeft = 30;
->>>>>>> 13037e1c0819bf0686524354fe48501898f1f49c
-
-var bricks = [];
-for(var c=0; c<brickColumnCount; c++) {
-    bricks[c] = [];
-    for(var r=0; r<brickRowCount; r++) {
-        bricks[c][r] = { x: 0, y: 0 };
-    }
-}
-
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
-
-function keyDownHandler(e) {
-    if(e.key == "Right" || e.key == "ArrowRight") {
-        rightPressed = true;
-    }
-    else if(e.key == "Left" || e.key == "ArrowLeft") {
-        leftPressed = true;
-    }
-}
-
-function drawPaddle() {
-    ctx.beginPath();
-    ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
-    ctx.fillStyle = "#0095DD";
-    ctx.fill();
-    ctx.closePath();
-}
-
-function keyUpHandler(e) {
-    if(e.key == "Right" || e.key == "ArrowRight") {
-        rightPressed = false;
-    }
-    else if(e.key == "Left" || e.key == "ArrowLeft") {
-        leftPressed = false;
-    }
-}
-
-function drawBall() {
-    ctx.beginPath();
-    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = "#0095DD";
-    ctx.fill();
-    ctx.closePath();
-}
-
-function drawBricks() {
-    for(var c=0; c<brickColumnCount; c++) {
-        for(var r=0; r<brickRowCount; r++) {
-            var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-            var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
-            bricks[c][r].x = brickX;
-            bricks[c][r].y = brickY;
-            ctx.beginPath();
-            ctx.rect(brickX, brickY, brickWidth, brickHeight);
-            ctx.fillStyle = "#0095DD";
-            ctx.fill();
-            ctx.closePath();
-        }
-    }
-}
-
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBricks();
-    drawBall();
-    drawPaddle();
-    
-    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-        dx = -dx;
-    }
-    if(y + dy < ballRadius) {
-        dy = -dy;
-    }
-    else if(y + dy > canvas.height-ballRadius) {
-        if(x > paddleX && x < paddleX + paddleWidth) {
-           if(y= y-paddleHeight){
-            dy = -dy  ;
-			 }
-        }
-        else {
-            alert("GAME OVER");
-            document.location.reload();
-            clearInterval(interval); // Needed for Chrome to end game
-        }
-    }
-    
-    if(rightPressed && paddleX < canvas.width-paddleWidth) {
-        paddleX += 7;
-    }
-    else if(leftPressed && paddleX > 0) {
-        paddleX -= 7;
-    }
-    
-    x += dx;
-    y += dy;
-}
-
-var interval = setInterval(draw, 10);
 
 //グリッド
 const board = [
@@ -307,106 +132,14 @@ function backMenu() {
 }
 
 function update() {}
-//キーインプット＆サウンド
-function keyDownHandler(e) {
-    if (e.key == "Right" || e.key == "ArrowRight") {
-      rigthKeyFlag = true;
-    } else if (e.key == "Left" || e.key == "ArrowLeft") {
-      leftKeyFlag = true;
-    }
-  }
-  
-  function keyUpHandler(e) {
-    if (e.key == "Right" || e.key == "ArrowRight") {
-      rigthKeyFlag = false;
-    } else if (e.key == "Left" || e.key == "ArrowLeft") {
-      leftKeyFlag = false;
-    }
-  }
-  
-  function keyDownHandler(e) {
-    if (e.key == "Right" || e.key == "D") {
-      rigthKeyFlag = true;
-    } else if (e.key == "Left" || e.key == "A") {
-      leftKeyFlag = true;
-    }
-  }
-  
-  function keyUpHandler(e) {
-    if (e.key == "Right" || e.key == "D") {
-      rigthKeyFlag = false;
-    } else if (e.key == "Left" || e.key == "A") {
-      leftKeyFlag = false;
-    }
-  }
-  
-  document.addEventListener("keydown", keyDownHandler);
-  document.addEventListener("keyup", keyUpHandler);
 
-//ボール方向
-const ball = new CanvasComponents({
-    ctx: MainContext,
-    img: "assets/ball.png",
-    size: new Vector2(36, 36),
-    position: new Vector2(GameArea.x / 2, GameArea.y / 2),
-    update: function () {
-        if (IsGameRunning) {
-            if (this.position.x < 0 + this.size.x / 2) {
-                this.direction.x = Math.abs(this.direction.x);
-                Sound.PlaySound("hit");
-            } else if (this.position.x > GameArea.x - this.size.x / 2) {
-                this.direction.x = Math.abs(this.direction.x) * -1;
-                Sound.PlaySound("hit");
-            }
-            if (this.position.y < 0 + this.size.y / 2) {
-                this.direction.y = Math.abs(this.direction.y);
-                Sound.PlaySound("hit");
-            }
-            if (
-                this.position.y > bar.position.y - bar.size.y / 2 - this.size.y / 2 &&
-                this.position.y < bar.position.y + bar.size.y / 2 + this.size.y / 2 &&
-                this.position.x > bar.position.x - bar.size.x / 2 - this.size.x / 2 &&
-                this.position.x < bar.position.x + bar.size.x / 2 + this.size.x / 2
-            ) {
-                let hitPosition = (this.position.x - bar.position.x) / (bar.size.x / 2);
-                this.direction = new Vector2(2 * hitPosition, -1);
-                Sound.PlaySound("hit");
-            }
-            if (this.position.y > GameArea.y - this.size.y / 2) {
-                gameOver();
-            }
-            this.motion = this.direction.normalized().multiply(15);
-            this.position = this.position.add(this.motion);
-        }
-    },
-});
-ball.direction = new Vector2(0, 0);
-//ボール反射
-if (IsGameRunning) {
-    if (this.position.x < 0 + this.size.x / 2) {
-        this.direction.x = Math.abs(this.direction.x);
-        Sound.PlaySound("hit");
-    } else if (this.position.x > GameArea.x - this.size.x / 2) {
-        this.direction.x = Math.abs(this.direction.x) * -1;
-        Sound.PlaySound("hit");
-    }
-    if (this.position.y < 0 + this.size.y / 2) {
-        this.direction.y = Math.abs(this.direction.y);
-        Sound.PlaySound("hit");
-    }
-    if (
-        this.position.y > bar.position.y - bar.size.y / 2 - this.size.y / 2 &&
-        this.position.y < bar.position.y + bar.size.y / 2 + this.size.y / 2 &&
-        this.position.x > bar.position.x - bar.size.x / 2 - this.size.x / 2 &&
-        this.position.x < bar.position.x + bar.size.x / 2 + this.size.x / 2
-    ) {
-        let hitPosition = (this.position.x - bar.position.x) / (bar.size.x / 2);
-        this.direction = new Vector2(2 * hitPosition, -1);
-        Sound.PlaySound("hit");
-    }
-    if (this.position.y > GameArea.y - this.size.y / 2) {
-        gameOver();
-    }
-    this.motion = this.direction.normalized().multiply(15);
-    this.position = this.position.add(this.motion);
-}
+//ゲームループの定義・開始
+const GameLoop = new GameLoopManager(() => {
+    MainContext.clearRect(0, 0, GameArea.x, GameArea.y);
+    CanvasComponents.components.forEach((component) => {
+        component.update();
+        component.render();
+    });
+    update();
+}, 30);
+GameLoop.start();
