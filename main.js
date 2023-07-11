@@ -64,10 +64,10 @@ ball.direction = new Vector2(0, 0);
 //グリッド
 const board = [
     "          ",
-    "          ",
-    " ▪▪▪▪▪▪▪▪ ",
-    " ▪▪▪▪▪▪▪▪ ",
-    " ▪▪▪▪▪▪▪▪ "
+    " ▪▪▪▪▪▪▪▪▪▪▪▪▪ ",
+    " ▪▪▪▪ ▪▪▪ ▪▪▪▪ ",
+    "  ▪▪   ▪   ▪▪  ",
+    " ▪▪▪▪▪▪▪▪▪▪▪▪▪ "
 ];
 for (let i = 0; i < board.length; i++) {
     for (let j = 0; j < board[i].length; j++) {
@@ -75,8 +75,8 @@ for (let i = 0; i < board.length; i++) {
             new CanvasComponents({
                 ctx: MainContext,
                 img: "assets/bar.png",
-                size: new Vector2(GameArea.x / 10 , 30),
-                position: new Vector2((GameArea.x / 10 / 2) + j * (GameArea.x / 10), 15 + i * 30),
+                size: new Vector2(GameArea.x / 15 , 30),
+                position: new Vector2((GameArea.x / 10 / 2) + j * (GameArea.x / 15), 15 + i * 30),
                 update: function () {
                     if (
                         (
