@@ -233,6 +233,4 @@ const ball = new CanvasComponents({
     },
 });
 ball.direction = new Vector2(0, 0);
-
-        
 //ボール反射
