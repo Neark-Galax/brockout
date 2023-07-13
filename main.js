@@ -55,7 +55,7 @@ const ball = new CanvasComponents({
                 gameOver();
             }
             this.motion = this.direction.normalized().multiply(15);
-            this.position = this.position.add(this.mo)
+            this.position = this.position.add(this.motion)
         }
     },
 });
